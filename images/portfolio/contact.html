@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto — Leo Filipe</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="full-vh">
+
+<header class="header">
+    <div class="header-left">
+        <div class="social" aria-label="Redes sociais">
+            <a href="https://www.linkedin.com/in/leofilipee/" title="LinkedIn" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
+                <img src="images/menu/linkedin.png" alt="LinkedIn" class="social-icon">
+            </a>
+            <a href="https://github.com/leofilipee" title="GitHub" aria-label="GitHub" target="_blank" rel="noopener noreferrer">
+                <img src="images/menu/github.png" alt="GitHub" class="social-icon">
+            </a>
+            <a href="https://discord.gg/aASmtM72" title="Discord" aria-label="Discord" target="_blank" rel="noopener noreferrer">
+                <img src="images/menu/discord.png" alt="Discord" class="social-icon">
+            </a>
+        </div>
+    </div>
+    <div class="header-right">
+        <button class="burger" aria-label="Abrir menu" aria-expanded="false" aria-controls="main-nav">
+            <span class="burger-inner" aria-hidden="true"></span>
+        </button>
+        <nav id="main-nav" class="nav" aria-label="Main navigation">
+            <a href="index.html">HOME</a>
+            <a href="projects.html">PROJETOS</a>
+            <a href="experiences.html">EXPERIÊNCIAS</a>
+            <a href="formation.html">FORMAÇÃO</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container top" role="main">
+    <h2 class="page-indicator">CONTACTO</h2>
+
+    <section class="contact-hero">
+        <h1 class="contact-title">Vamos Conversar</h1>
+
+        <div class="contact-media">
+            <img src="images/contact/contact.gif" alt="Contact visual" class="contact-gif">
+        </div>
+
+        <div class="contact-info">
+            <p class="muted">Email: <span class="email">l.filipecontact@gmail.com</span> <a class="press-kit" href="mailto:l.filipecontact@gmail.com">contactar
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+                    <path d="M3 8.5C3 7.11929 4.11929 6 5.5 6H18.5C19.8807 6 21 7.11929 21 8.5V15.5C21 16.8807 19.8807 18 18.5 18H5.5C4.11929 18 3 16.8807 3 15.5V8.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M21 8L12 13L3 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </a></p>
+        </div>
+    </section>
+</main>
+
+<footer class="footer">
+    <div id="copyright">© 2025 Leo Filipe</div>
+</footer>
+
+<script>
+    (function(){
+        var year = new Date().getFullYear();
+        var el = document.getElementById('copyright');
+        if(el){ el.textContent = '© ' + year + ' Leo Filipe'; }
+
+        function initMobileMenu(){
+            var burger = document.querySelector('.burger');
+            var nav = document.getElementById('main-nav');
+            if(!burger || !nav) return;
+            burger.addEventListener('click', function(e){
+                e.stopPropagation();
+                var open = nav.classList.toggle('open');
+                burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+            });
+            document.addEventListener('click', function(e){
+                if(nav.classList.contains('open') && !nav.contains(e.target) && !burger.contains(e.target)){
+                    nav.classList.remove('open');
+                    burger.setAttribute('aria-expanded','false');
+                }
+            });
+        }
+        if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initMobileMenu); else initMobileMenu();
+    })();
+</script>
+
+</body>
+</html>

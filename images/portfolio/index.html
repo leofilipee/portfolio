@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdHoc — Portfolio (template)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="full-vh">
+
+<header class="header">
+    <div class="header-left">
+        <div class="social" aria-label="Redes sociais">
+            <a href="https://www.linkedin.com/in/leofilipee/" title="LinkedIn" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
+                <img src="images/menu/linkedin.png" alt="LinkedIn" class="social-icon">
+            </a>
+            <a href="https://github.com/leofilipee" title="GitHub" aria-label="GitHub" target="_blank" rel="noopener noreferrer">
+                <img src="images/menu/github.png" alt="GitHub" class="social-icon">
+            </a>
+            <a href="https://discord.gg/aASmtM72" title="Discord" aria-label="Discord" target="_blank" rel="noopener noreferrer">
+                <img src="images/menu/discord.png" alt="Discord" class="social-icon">
+            </a>
+        </div>
+    </div>
+    <div class="header-right">
+        <button class="burger" aria-label="Abrir menu" aria-expanded="false" aria-controls="main-nav">
+            <span class="burger-inner" aria-hidden="true"></span>
+        </button>
+        <nav id="main-nav" class="nav" aria-label="Main navigation">
+            <a href="index.html" class="active">HOME</a>
+            <a href="projects.html">PROJETOS</a>
+            <a href="experiences.html">EXPERIÊNCIAS</a>
+            <a href="formation.html">FORMAÇÃO</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container" role="main">
+    <section class="hero" aria-labelledby="hero-title">
+        <h1 id="hero-title" class="title">Leo Filipe</h1>
+        <div class="subtitle">Frontend Developper</div>
+        <div class="cta">
+            <a class="btn primary" href="about.html">SOBRE MIM</a>
+            <a class="btn" href="contact.html" style="margin-left:12px">CONTACTO</a>
+        </div>
+    </section>
+</main>
+
+<!-- Cookie banner removido conforme solicitado -->
+
+<footer class="footer">
+    <div id="copyright">© 2025 Leo Filipe</div>
+</footer>
+
+<script>
+    (function(){
+        var year = new Date().getFullYear();
+        var el = document.getElementById('copyright');
+        if(el){ el.textContent = '© ' + year + ' Leo Filipe'; }
+
+        function initMobileMenu(){
+            var burger = document.querySelector('.burger');
+            var nav = document.getElementById('main-nav');
+            if(!burger || !nav) return;
+            burger.addEventListener('click', function(e){
+                e.stopPropagation();
+                var open = nav.classList.toggle('open');
+                burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+            });
+            document.addEventListener('click', function(e){
+                if(nav.classList.contains('open') && !nav.contains(e.target) && !burger.contains(e.target)){
+                    nav.classList.remove('open');
+                    burger.setAttribute('aria-expanded','false');
+                }
+            });
+        }
+        if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initMobileMenu); else initMobileMenu();
+    })();
+</script>
+
+</body>
+</html>
