@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Home, User, Briefcase, GraduationCap, Award, FolderGit2, Mail, Github, Linkedin, MessageCircle } from 'lucide-react';
+import { Menu, X, Home, User, Briefcase, GraduationCap, Award, FolderGit2, Mail, Github, Linkedin, MessageCircle, ArrowUp } from 'lucide-react';
 import { ImageWithFallback } from './ImageWithFallback';
 
 import profilePhoto from '../../imports/photo.jpeg';
@@ -16,6 +16,7 @@ const navItems = [
 
 export function Sidebar({ mobileMenuOpen, setMobileMenuOpen }: { mobileMenuOpen: boolean, setMobileMenuOpen: (open: boolean) => void }) {
   const [activeSection, setActiveSection] = useState('hero');
+  const [showBackToTop, setShowBackToTop] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -36,8 +37,17 @@ export function Sidebar({ mobileMenuOpen, setMobileMenuOpen }: { mobileMenuOpen:
       if (current) {
         setActiveSection(current);
       }
+
+      const firstSection = document.getElementById('hero');
+      if (firstSection) {
+        const rect = firstSection.getBoundingClientRect();
+        setShowBackToTop(rect.bottom <= 0);
+      } else {
+        setShowBackToTop(window.scrollY > 300);
+      }
     };
 
+    handleScroll();
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -51,6 +61,17 @@ export function Sidebar({ mobileMenuOpen, setMobileMenuOpen }: { mobileMenuOpen:
       >
         {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
+
+      {showBackToTop && (
+        <button
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          className="lg:hidden fixed bottom-4 right-4 z-50 p-2 bg-gray-900 text-white rounded-full shadow-lg hover:bg-gray-700 transition-colors"
+          aria-label="Voltar ao topo"
+          title="Voltar ao topo"
+        >
+          <ArrowUp size={24} />
+        </button>
+      )}
 
       {/* Sidebar Overlay */}
       {mobileMenuOpen && (
