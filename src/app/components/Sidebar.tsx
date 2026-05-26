@@ -62,16 +62,18 @@ export function Sidebar({ mobileMenuOpen, setMobileMenuOpen }: { mobileMenuOpen:
         {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
 
-      {showBackToTop && (
-        <button
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          className="lg:hidden fixed bottom-4 right-4 z-50 p-2 bg-gray-900 text-white rounded-full shadow-lg hover:bg-gray-700 transition-colors"
-          aria-label="Voltar ao topo"
-          title="Voltar ao topo"
-        >
-          <ArrowUp size={24} />
-        </button>
-      )}
+      <button
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        className={`
+          lg:hidden fixed bottom-4 right-4 z-50 p-2 bg-gray-900 text-white rounded-full shadow-lg hover:bg-gray-700
+          transition-all duration-300 ease-out
+          ${showBackToTop ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-2 pointer-events-none'}
+        `}
+        aria-label="Voltar ao topo"
+        title="Voltar ao topo"
+      >
+        <ArrowUp size={24} />
+      </button>
 
       {/* Sidebar Overlay */}
       {mobileMenuOpen && (
