@@ -20,7 +20,7 @@ export function Hero() {
           </h1>
           <p className="text-2xl md:text-3xl text-gray-700 font-light mb-8">
             Estudante de Informática de Gestão & <br className="hidden md:block"/>
-            <span className="font-semibold text-indigo-600">Desenvolvedor Frontend</span>
+            <span className="font-semibold text-indigo-600">Frontend Developer</span>
           </p>
           
           <div className="flex flex-wrap gap-4 mt-8">
