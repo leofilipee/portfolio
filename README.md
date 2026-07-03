@@ -36,7 +36,7 @@
   npm run build
   ```
 
-  4. Gerar e mover `dist` para `docs/` (usado para publicar no GitHub Pages):
+  4. Gerar e mover `dist` para `docs/` (opcional, usado apenas se também quiseres publicar no GitHub Pages):
 
   ```bash
   npm run build:publish
@@ -49,6 +49,13 @@
   - `scripts/` — scripts auxiliares (ex.: mover `dist` para `docs`).
   - `dist/` — build de produção gerado pelo Vite.
   - `docs/` — cópia do `dist` pronta para publicação no GitHub Pages (quando aplicável).
+
+  Publicação no Vercel
+
+  - O Vercel funciona com as configurações padrão do projeto.
+  - Build Command: `npm run build`
+  - Output Directory: `dist`
+  - Não é necessário usar `build:publish` para o Vercel.
 
   Contacto
 
