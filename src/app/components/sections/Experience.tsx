@@ -53,7 +53,7 @@ const generalExperiences = [
     company: "McDonald's",
     location: "Portugal",
     period: "Abr 2026 - Jun 2026",
-    description: "Desempenho de funções polivalentes num ambiente de ritmo acelerado, incluindo a preparação alimentar, serviço à mesa e manutenção do espaço, garantindo sempre a melhor experiência e atendimento ao cliente."
+    description: "Desempenhei de funções polivalentes num ambiente de ritmo acelerado, incluindo a preparação alimentar, serviço à mesa e manutenção do espaço, garantindo sempre a melhor experiência e atendimento ao cliente."
   },
   {
     title: "Auxiliar de Supermercado • Trabalho",

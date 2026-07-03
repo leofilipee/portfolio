@@ -7,7 +7,7 @@ const academicEducation = [
     title: "Informática de Gestão • Licenciatura",
     institution: "IADE - Creative University",
     location: "Portugal",
-    period: "Set 2024 - Jun 2026",
+    period: "Set 2024 - Jun 2027",
     description: "",
   },
   {

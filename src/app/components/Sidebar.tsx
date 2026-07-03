@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Home, User, Briefcase, GraduationCap, Award, FolderGit2, Mail, Github, Linkedin, MessageCircle, ArrowUp } from 'lucide-react';
+import { Menu, X, Home, User, Sparkles, GraduationCap, Award, FolderGit2, Mail, Github, Linkedin, MessageCircle, ArrowUp } from 'lucide-react';
 import { ImageWithFallback } from './ImageWithFallback';
 
 import profilePhoto from '../../imports/photo.jpeg';
@@ -7,6 +7,7 @@ import profilePhoto from '../../imports/photo.jpeg';
 const navItems = [
   { name: 'Início', href: '#hero', icon: Home },
   { name: 'Sobre', href: '#about', icon: User },
+  { name: 'Skills', href: '#skills', icon: Sparkles },
   { name: 'Experiências', href: '#experience', icon: Briefcase },
   { name: 'Formações', href: '#education', icon: GraduationCap },
   { name: 'Conquistas', href: '#achievements', icon: Award },

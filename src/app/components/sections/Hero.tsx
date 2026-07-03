@@ -19,8 +19,9 @@ export function Hero() {
             Leo Filipe
           </h1>
           <p className="text-2xl md:text-3xl text-gray-700 font-light mb-8">
-            Estudante de Informática de Gestão & <br className="hidden md:block"/>
-            <span className="font-semibold text-indigo-600">Frontend Developer</span>
+            <span className="font-semibold text-indigo-600">Software Engineer</span>
+            <br className="hidden md:block"/>
+            focado no desenvolvimento de software em geral
           </p>
           
           <div className="flex flex-wrap gap-4 mt-8">
