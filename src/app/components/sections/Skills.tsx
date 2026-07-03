@@ -1,6 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { SectionHeading } from '../SectionHeading';
+import { useIsMobile } from '../ui/use-mobile';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '../ui/dialog';
 
 const hardSkills = [
   'Computer Programming',
@@ -99,14 +107,17 @@ function SkillPills({ items }: { items: string[] }) {
 
 const COLLAPSED_HEIGHT = 112;
 
-function SkillsPanel({ items }: { items: string[] }) {
+function SkillsPanel({ items, title }: { items: string[]; title: string }) {
+  const isMobile = useIsMobile();
   const [expanded, setExpanded] = useState(false);
   const [canExpand, setCanExpand] = useState(false);
   const [contentHeight, setContentHeight] = useState(COLLAPSED_HEIGHT);
+  const [mobileDialogOpen, setMobileDialogOpen] = useState(false);
   const contentRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     setExpanded(false);
+    setMobileDialogOpen(false);
   }, [items]);
 
   useEffect(() => {
@@ -139,8 +150,7 @@ function SkillsPanel({ items }: { items: string[] }) {
         ref={contentRef}
         animate={{
           maxHeight: expanded ? contentHeight : COLLAPSED_HEIGHT,
-          opacity: expanded ? 1 : 0.98,
-          y: expanded ? 0 : 0,
+          opacity: 1,
         }}
         transition={{
           type: 'spring',
@@ -157,13 +167,37 @@ function SkillsPanel({ items }: { items: string[] }) {
         <div className="mt-5 flex justify-center">
           <button
             type="button"
-            onClick={() => setExpanded((value) => !value)}
+            onClick={() => {
+              if (isMobile) {
+                setMobileDialogOpen(true);
+                return;
+              }
+
+              setExpanded((value) => !value);
+            }}
             className="text-sm font-medium text-indigo-600 hover:text-indigo-700 transition-colors"
           >
-            {expanded ? 'Mostrar menos...' : 'Mostrar mais...'}
+            {isMobile ? 'Mostrar mais...' : expanded ? 'Mostrar menos...' : 'Mostrar mais...'}
           </button>
         </div>
       )}
+
+      <Dialog open={mobileDialogOpen} onOpenChange={setMobileDialogOpen}>
+        <DialogContent className="sm:max-w-xl max-h-[85vh] overflow-hidden p-0">
+          <div className="p-6 pb-4 border-b border-gray-100">
+            <DialogHeader>
+              <DialogTitle className="text-xl text-gray-900">{title}</DialogTitle>
+              <DialogDescription className="text-gray-500">
+                Lista completa de competências desta categoria.
+              </DialogDescription>
+            </DialogHeader>
+          </div>
+
+          <div className="max-h-[65vh] overflow-y-auto p-6 pt-5">
+            <SkillPills items={items} />
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
@@ -250,7 +284,7 @@ export function Skills() {
                 transition={{ duration: 0.3 }}
                 className="w-full"
               >
-                <SkillsPanel items={content} />
+                  <SkillsPanel items={content} title={activeTab === 'hard' ? 'Hard' : activeTab === 'soft' ? 'Soft' : activeTab === 'idiomas' ? 'Idiomas' : 'Conhecimento do setor'} />
               </motion.div>
             </AnimatePresence>
           </div>
