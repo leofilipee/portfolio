@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Home, User, Sparkles, GraduationCap, Award, FolderGit2, Mail, Github, Linkedin, MessageCircle, ArrowUp } from 'lucide-react';
+import { Menu, X, Home, User, Briefcase, Sparkles, GraduationCap, Award, FolderGit2, Mail, Github, Linkedin, MessageCircle, ArrowUp } from 'lucide-react';
 import { ImageWithFallback } from './ImageWithFallback';
 
 import profilePhoto from '../../imports/photo.jpeg';

@@ -123,6 +123,10 @@ function SkillsPanel({ items }: { items: string[] }) {
 
     updateOverflowState();
 
+    if (typeof ResizeObserver === 'undefined') {
+      return;
+    }
+
     const resizeObserver = new ResizeObserver(updateOverflowState);
     resizeObserver.observe(element);
 
