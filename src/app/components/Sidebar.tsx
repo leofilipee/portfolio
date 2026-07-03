@@ -1,21 +1,64 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, Home, User, Briefcase, Sparkles, GraduationCap, Award, FolderGit2, Mail, Github, Linkedin, MessageCircle, ArrowUp } from 'lucide-react';
 import { ImageWithFallback } from './ImageWithFallback';
+import { useLanguage, type Language } from '../i18n';
 
 import profilePhoto from '../../imports/photo.jpeg';
 
 const navItems = [
-  { name: 'Início', href: '#hero', icon: Home },
-  { name: 'Sobre', href: '#about', icon: User },
-  { name: 'Skills', href: '#skills', icon: Sparkles },
-  { name: 'Experiências', href: '#experience', icon: Briefcase },
-  { name: 'Formações', href: '#education', icon: GraduationCap },
-  { name: 'Conquistas', href: '#achievements', icon: Award },
-  { name: 'Projetos', href: '#projects', icon: FolderGit2 },
-  { name: 'Contacto', href: '#contact', icon: Mail },
+  { key: 'home', href: '#hero', icon: Home },
+  { key: 'about', href: '#about', icon: User },
+  { key: 'skills', href: '#skills', icon: Sparkles },
+  { key: 'experience', href: '#experience', icon: Briefcase },
+  { key: 'education', href: '#education', icon: GraduationCap },
+  { key: 'achievements', href: '#achievements', icon: Award },
+  { key: 'projects', href: '#projects', icon: FolderGit2 },
+  { key: 'contact', href: '#contact', icon: Mail },
 ];
 
+function LanguageSwitcher({ compact = false }: { compact?: boolean }) {
+  const { language, setLanguage, t } = useLanguage();
+
+  const options: Array<{ value: Language; label: string }> = [
+    { value: 'en', label: 'EN' },
+    { value: 'pt', label: 'PT' },
+    { value: 'fr', label: 'FR' },
+  ];
+
+  return (
+    <div className={compact ? 'inline-flex rounded-full bg-white/90 p-1 shadow-lg border border-gray-200 backdrop-blur' : 'w-full rounded-2xl bg-gray-900 p-2 border border-gray-800'}>
+      <div className={compact ? 'flex items-center gap-1' : 'flex items-center justify-between gap-3 px-2 py-1'}>
+        {!compact && <span className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-400">{t.languageSwitcher.title}</span>}
+        <div className="flex gap-1">
+          {options.map((option) => (
+            <button
+              key={option.value}
+              type="button"
+              onClick={() => setLanguage(option.value)}
+              className={`min-w-10 rounded-full px-3 py-1.5 text-xs font-semibold transition-all ${
+                language === option.value
+                  ? compact
+                    ? 'bg-indigo-600 text-white shadow'
+                    : 'bg-indigo-600 text-white shadow'
+                  : compact
+                    ? 'text-gray-600 hover:text-gray-900'
+                    : 'text-gray-400 hover:text-white hover:bg-white/10'
+              }`}
+              aria-pressed={language === option.value}
+              aria-label={option.value === 'en' ? 'English' : option.value === 'pt' ? 'Português' : 'Français'}
+              title={option.value === 'en' ? 'English' : option.value === 'pt' ? 'Português' : 'Français'}
+            >
+              {option.label}
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function Sidebar({ mobileMenuOpen, setMobileMenuOpen }: { mobileMenuOpen: boolean, setMobileMenuOpen: (open: boolean) => void }) {
+  const { t } = useLanguage();
   const [activeSection, setActiveSection] = useState('hero');
   const [showBackToTop, setShowBackToTop] = useState(false);
 
@@ -56,6 +99,10 @@ export function Sidebar({ mobileMenuOpen, setMobileMenuOpen }: { mobileMenuOpen:
   return (
     <>
       {/* Mobile Menu Button */}
+      <div className="lg:hidden fixed top-4 left-4 z-50">
+        <LanguageSwitcher compact />
+      </div>
+
       <button 
         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         className="lg:hidden fixed top-4 right-4 z-50 p-2 bg-indigo-600 text-white rounded-full shadow-lg"
@@ -115,7 +162,7 @@ export function Sidebar({ mobileMenuOpen, setMobileMenuOpen }: { mobileMenuOpen:
         <nav className="flex-1 overflow-y-auto py-6">
           <ul className="flex flex-col gap-2 px-4">
             {navItems.map((item) => (
-              <li key={item.name}>
+              <li key={item.key}>
                 <a 
                   href={item.href}
                   onClick={() => setMobileMenuOpen(false)}
@@ -127,12 +174,16 @@ export function Sidebar({ mobileMenuOpen, setMobileMenuOpen }: { mobileMenuOpen:
                   `}
                 >
                   <item.icon size={20} className={activeSection === item.href.substring(1) ? 'text-indigo-400' : 'text-gray-400 group-hover:text-indigo-400'} />
-                  {item.name}
+                  {t.nav[item.key as keyof typeof t.nav]}
                 </a>
               </li>
             ))}
           </ul>
         </nav>
+
+        <div className="px-4 pb-4 pt-2 border-t border-gray-800">
+          <LanguageSwitcher />
+        </div>
       </aside>
     </>
   );

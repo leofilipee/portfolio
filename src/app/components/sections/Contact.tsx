@@ -2,18 +2,23 @@ import React from 'react';
 import { SectionHeading } from '../SectionHeading';
 import { Mail, Phone, Globe, Linkedin, Github, MessageCircle } from 'lucide-react';
 import { motion } from 'motion/react';
+import { useLanguage } from '../../i18n';
 
 export function Contact() {
+  const { language } = useLanguage();
+  const contactTitle = language === 'pt' ? 'Contacto' : language === 'en' ? 'Contact' : 'Contact';
+  const contactSubtitle = language === 'pt' ? 'Tem alguma oportunidade ou projeto em mente? Vamos conversar.' : language === 'en' ? 'Have an opportunity or project in mind? Let’s talk.' : 'Vous avez une opportunité ou un projet en tête ? Parlons-en.';
+
   const contactInfo = [
     {
       icon: <Mail size={28} />,
-      title: "Email",
+      title: language === 'pt' ? 'Email' : language === 'en' ? 'Email' : 'E-mail',
       content: "l.filipecontact@gmail.com",
       link: "mailto:l.filipecontact@gmail.com"
     },
     {
       icon: <Phone size={28} />,
-      title: "Telefone",
+      title: language === 'pt' ? 'Telefone' : language === 'en' ? 'Phone' : 'Téléphone',
       content: "+351 913 914 925",
       link: "tel:+351913914925"
     }
@@ -22,7 +27,7 @@ export function Contact() {
   return (
     <section id="contact" className="py-20 px-8 lg:px-16 bg-gray-50">
       <div className="container mx-auto max-w-5xl">
-        <SectionHeading title="Contacto" subtitle="Tem alguma oportunidade ou projeto em mente? Vamos conversar." />
+        <SectionHeading title={contactTitle} subtitle={contactSubtitle} />
 
         <div className="grid md:grid-cols-3 gap-6 mt-12">
           {contactInfo.map((method, index) => (
@@ -62,7 +67,7 @@ export function Contact() {
               <Globe size={28} />
             </div>
             <div className="w-full flex flex-col items-center">
-              <h4 className="text-lg font-bold text-gray-800 mb-4">Redes Sociais</h4>
+              <h4 className="text-lg font-bold text-gray-800 mb-4">{language === 'pt' ? 'Redes Sociais' : language === 'en' ? 'Socials' : 'Réseaux sociaux'}</h4>
               <div className="flex flex-wrap justify-center gap-3">
                 <a 
                   href="https://wa.me/33749648011" 

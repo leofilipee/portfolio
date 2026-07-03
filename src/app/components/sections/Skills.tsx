@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { SectionHeading } from '../SectionHeading';
 import { useIsMobile } from '../ui/use-mobile';
+import { useLanguage } from '../../i18n';
 import {
   Dialog,
   DialogContent,
@@ -54,41 +55,113 @@ const hardSkills = [
   'Figma',
 ];
 
-const softSkills = [
-  'Comunicação',
-  'Pensamento analítico',
-  'Resolução de problemas',
-  'Adaptabilidade',
-  'Trabalho em equipa',
-  'Aprendizagem contínua',
-  'Organização',
-  'Gestão de tempo',
-  'Resiliência',
-  'Foco em produto',
-];
-
-const languages = [
-  'Português - nativo',
-  'Francês - fluente',
-  'Inglês - básico/intermédio',
-];
-
-const sectorKnowledge = [
-  'Requirements Elicitation',
-  'Business Analysis',
-  'Business Requirements',
-  'Functional Requirements',
-  'Non-Functional Requirements',
-  'Requirements Analysis',
-  'Market Research',
-  'Market Analysis',
-  'Agile Methodologies',
-  'Cybersecurity',
-  'Product Strategy',
-  'GovTech Solutions',
-  'UX (User Experience)',
-  'Project Management',
-];
+const skillsByLanguage = {
+  pt: {
+    softSkills: [
+      'Comunicação',
+      'Pensamento analítico',
+      'Resolução de problemas',
+      'Adaptabilidade',
+      'Trabalho em equipa',
+      'Aprendizagem contínua',
+      'Organização',
+      'Gestão de tempo',
+      'Resiliência',
+      'Foco em produto',
+    ],
+    languages: [
+      'Português - nativo',
+      'Francês - fluente',
+      'Inglês - básico/intermédio',
+    ],
+    sectorKnowledge: [
+      'Recolha de requisitos',
+      'Análise de negócio',
+      'Requisitos de negócio',
+      'Requisitos funcionais',
+      'Requisitos não funcionais',
+      'Análise de requisitos',
+      'Pesquisa de mercado',
+      'Análise de mercado',
+      'Metodologias ágeis',
+      'Cibersegurança',
+      'Estratégia de produto',
+      'Soluções GovTech',
+      'UX (Experiência do Utilizador)',
+      'Gestão de projetos',
+    ],
+  },
+  en: {
+    softSkills: [
+      'Communication',
+      'Analytical thinking',
+      'Problem solving',
+      'Adaptability',
+      'Teamwork',
+      'Continuous learning',
+      'Organization',
+      'Time management',
+      'Resilience',
+      'Product focus',
+    ],
+    languages: [
+      'Portuguese - native',
+      'French - fluent',
+      'English - basic/intermediate',
+    ],
+    sectorKnowledge: [
+      'Requirements elicitation',
+      'Business analysis',
+      'Business requirements',
+      'Functional requirements',
+      'Non-functional requirements',
+      'Requirements analysis',
+      'Market research',
+      'Market analysis',
+      'Agile methodologies',
+      'Cybersecurity',
+      'Product strategy',
+      'GovTech solutions',
+      'UX (User Experience)',
+      'Project management',
+    ],
+  },
+  fr: {
+    softSkills: [
+      'Communication',
+      'Esprit analytique',
+      'Résolution de problèmes',
+      'Adaptabilité',
+      'Travail en équipe',
+      'Apprentissage continu',
+      'Organisation',
+      'Gestion du temps',
+      'Résilience',
+      'Orientation produit',
+    ],
+    languages: [
+      'Portugais - natif',
+      'Français - courant',
+      'Anglais - notions de base / intermédiaire',
+    ],
+    sectorKnowledge: [
+      'Recueil des besoins',
+      'Analyse métier',
+      'Besoins métier',
+      'Exigences fonctionnelles',
+      'Exigences non fonctionnelles',
+      'Analyse des besoins',
+      'Étude de marché',
+      'Analyse de marché',
+      'Méthodologies agiles',
+      'Cybersécurité',
+      'Stratégie produit',
+      'Solutions GovTech',
+      'UX (expérience utilisateur)',
+      'Gestion de projet',
+    ],
+  },
+} as const;
 
 function SkillPills({ items }: { items: string[] }) {
   return (
@@ -109,6 +182,7 @@ const COLLAPSED_HEIGHT = 112;
 
 function SkillsPanel({ items, title }: { items: string[]; title: string }) {
   const isMobile = useIsMobile();
+  const { t } = useLanguage();
   const [expanded, setExpanded] = useState(false);
   const [canExpand, setCanExpand] = useState(false);
   const [contentHeight, setContentHeight] = useState(COLLAPSED_HEIGHT);
@@ -177,7 +251,7 @@ function SkillsPanel({ items, title }: { items: string[]; title: string }) {
             }}
             className="text-sm font-medium text-indigo-600 hover:text-indigo-700 transition-colors"
           >
-            {isMobile ? 'Mostrar mais...' : expanded ? 'Mostrar menos...' : 'Mostrar mais...'}
+            {isMobile ? t.skills.showMore : expanded ? t.skills.showLess : t.skills.showMore}
           </button>
         </div>
       )}
@@ -188,7 +262,7 @@ function SkillsPanel({ items, title }: { items: string[]; title: string }) {
             <DialogHeader>
               <DialogTitle className="text-xl text-gray-900">{title}</DialogTitle>
               <DialogDescription className="text-gray-500">
-                Lista completa de competências desta categoria.
+                {t.skills.dialogDescription}
               </DialogDescription>
             </DialogHeader>
           </div>
@@ -203,23 +277,33 @@ function SkillsPanel({ items, title }: { items: string[]; title: string }) {
 }
 
 export function Skills() {
+  const { language, t } = useLanguage();
   const [activeTab, setActiveTab] = useState<'hard' | 'soft' | 'idiomas' | 'sector'>('hard');
 
   const content =
     activeTab === 'hard'
       ? hardSkills
       : activeTab === 'soft'
-        ? softSkills
+        ? skillsByLanguage[language].softSkills
         : activeTab === 'idiomas'
-          ? languages
-          : sectorKnowledge;
+          ? skillsByLanguage[language].languages
+          : skillsByLanguage[language].sectorKnowledge;
+
+  const tabTitle =
+    activeTab === 'hard'
+      ? t.skills.hard
+      : activeTab === 'soft'
+        ? t.skills.soft
+        : activeTab === 'idiomas'
+          ? t.skills.languages
+          : t.skills.sector;
 
   return (
     <section id="skills" className="py-20 px-8 lg:px-16 bg-gray-50">
       <div className="container mx-auto max-w-5xl">
         <SectionHeading
-          title="Skills"
-          subtitle="Um retrato mais completo das competências que uso para construir software, colaborar com equipas e comunicar com clareza."
+          title={t.skills.title}
+          subtitle={t.skills.subtitle}
         />
 
         <motion.div
@@ -239,7 +323,7 @@ export function Skills() {
                     : 'text-gray-600 hover:text-gray-900 hover:bg-white'
                 }`}
               >
-                Hard
+                {t.skills.hard}
               </button>
               <button
                 onClick={() => setActiveTab('soft')}
@@ -249,7 +333,7 @@ export function Skills() {
                     : 'text-gray-600 hover:text-gray-900 hover:bg-white'
                 }`}
               >
-                Soft
+                {t.skills.soft}
               </button>
               <button
                 onClick={() => setActiveTab('idiomas')}
@@ -259,7 +343,7 @@ export function Skills() {
                     : 'text-gray-600 hover:text-gray-900 hover:bg-white'
                 }`}
               >
-                Idiomas
+                {t.skills.languages}
               </button>
               <button
                 onClick={() => setActiveTab('sector')}
@@ -269,7 +353,7 @@ export function Skills() {
                     : 'text-gray-600 hover:text-gray-900 hover:bg-white'
                 }`}
               >
-                Conhecimento do setor
+                {t.skills.sector}
               </button>
             </div>
           </div>
@@ -284,7 +368,7 @@ export function Skills() {
                 transition={{ duration: 0.3 }}
                 className="w-full"
               >
-                  <SkillsPanel items={content} title={activeTab === 'hard' ? 'Hard' : activeTab === 'soft' ? 'Soft' : activeTab === 'idiomas' ? 'Idiomas' : 'Conhecimento do setor'} />
+                  <SkillsPanel items={content} title={tabTitle} />
               </motion.div>
             </AnimatePresence>
           </div>

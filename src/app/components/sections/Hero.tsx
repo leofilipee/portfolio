@@ -1,7 +1,10 @@
 import React from 'react';
 import { motion } from 'motion/react';
+import { useLanguage } from '../../i18n';
 
 export function Hero() {
+  const { t } = useLanguage();
+
   return (
     <section id="hero" className="min-h-screen flex items-center bg-gray-50 relative overflow-hidden">
       {/* Background pattern */}
@@ -14,7 +17,7 @@ export function Hero() {
           transition={{ duration: 0.8 }}
           className="max-w-3xl"
         >
-          <p className="text-indigo-600 font-semibold tracking-wider uppercase mb-4">Olá, eu sou o</p>
+          <p className="text-indigo-600 font-semibold tracking-wider uppercase mb-4">{t.hero.greeting}</p>
           <h1 className="text-5xl md:text-7xl font-bold text-gray-900 mb-6 leading-tight">
             Leo Filipe
           </h1>
@@ -24,10 +27,10 @@ export function Hero() {
           
           <div className="flex flex-wrap gap-4 mt-8">
             <a href="#projects" className="px-8 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-600/30">
-              Ver Projetos
+              {t.hero.projects}
             </a>
             <a href="#contact" className="px-8 py-3 bg-white text-gray-800 font-medium rounded-lg border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-colors">
-              Contactar
+              {t.hero.contact}
             </a>
           </div>
         </motion.div>

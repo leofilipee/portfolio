@@ -1,57 +1,65 @@
 import React, { useState } from 'react';
 import { SectionHeading } from '../SectionHeading';
 import { motion, AnimatePresence } from 'motion/react';
+import { formatMonthYear, useLanguage } from '../../i18n';
 
-const academicEducation = [
-  {
-    title: "Informática de Gestão • Licenciatura",
-    institution: "IADE - Creative University",
-    location: "Portugal",
-    period: "Set 2024 - Jun 2027",
-    description: "",
-  },
-  {
-    title: "Services Informatiques aux Organisations (SIO) • BTS",
-    institution: "Lycée Gabriel Fauré",
-    location: "França",
-    period: "Set 2023 - Jul 2024",
-    description: "",
-  },
-  {
-    title: "Système Numérique • Bac Pro",
-    institution: "Lycée Paul Héroult",
-    location: "França",
-    period: "Set 2020 - Jul 2023",
-    description: "",
-  }
-];
+type EducationItem = {
+  title: string;
+  institution: string;
+  location?: string;
+  period: string;
+  description?: string;
+  credential?: string;
+};
 
-const extracurricularEducation = [
-  {
-    title: "Programming with JavaScript",
-    institution: "Meta",
-    period: "Abr 2026",
-    credential: "Código da credencial: U6ZPF9MX8810",
+const educationByLanguage: Record<'pt' | 'en' | 'fr', { academic: EducationItem[]; extracurricular: EducationItem[] }> = {
+  pt: {
+    academic: [
+      { title: 'Informática de Gestão • Licenciatura', institution: 'IADE - Creative University', location: 'Portugal', period: 'Set 2024 - Jun 2027' },
+      { title: 'Services Informatiques aux Organisations (SIO) • BTS', institution: 'Lycée Gabriel Fauré', location: 'França', period: 'Set 2023 - Jul 2024' },
+      { title: 'Système Numérique • Bac Pro', institution: 'Lycée Paul Héroult', location: 'França', period: 'Set 2020 - Jul 2023' },
+    ],
+    extracurricular: [
+      { title: 'Programming with JavaScript', institution: 'Meta', period: 'Abr 2026', credential: 'Código da credencial: U6ZPF9MX8810' },
+      { title: 'Introduction to Front-End Development', institution: 'Meta', period: 'Mar 2026', credential: 'Código da credencial: 9W14H9MGNRU2' },
+    ],
   },
-  {
-    title: "Introduction to Front-End Development",
-    institution: "Meta",
-    period: "Mar 2026",
-    credential: "Código da credencial: 9W14H9MGNRU2",
-  }
-];
+  en: {
+    academic: [
+      { title: 'Management Informatics • Bachelor’s Degree', institution: 'IADE - Creative University', location: 'Portugal', period: 'Sep 2024 - Jun 2027' },
+      { title: 'Information Systems for Organizations (SIO) • BTS', institution: 'Lycée Gabriel Fauré', location: 'France', period: 'Sep 2023 - Jul 2024' },
+      { title: 'Digital Systems • Vocational Baccalaureate', institution: 'Lycée Paul Héroult', location: 'France', period: 'Sep 2020 - Jul 2023' },
+    ],
+    extracurricular: [
+      { title: 'Programming with JavaScript', institution: 'Meta', period: 'Apr 2026', credential: 'Credential code: U6ZPF9MX8810' },
+      { title: 'Introduction to Front-End Development', institution: 'Meta', period: 'Mar 2026', credential: 'Credential code: 9W14H9MGNRU2' },
+    ],
+  },
+  fr: {
+    academic: [
+      { title: 'Informatique de gestion • Licence', institution: 'IADE - Creative University', location: 'Portugal', period: 'Sep 2024 - Jun 2027' },
+      { title: 'Services Informatiques aux Organisations (SIO) • BTS', institution: 'Lycée Gabriel Fauré', location: 'France', period: 'Sep 2023 - Jul 2024' },
+      { title: 'Système Numérique • Bac Pro', institution: 'Lycée Paul Héroult', location: 'France', period: 'Sep 2020 - Jul 2023' },
+    ],
+    extracurricular: [
+      { title: 'Programming with JavaScript', institution: 'Meta', period: 'Avr 2026', credential: 'Code de certification: U6ZPF9MX8810' },
+      { title: 'Introduction to Front-End Development', institution: 'Meta', period: 'Mar 2026', credential: 'Code de certification: 9W14H9MGNRU2' },
+    ],
+  },
+};
 
 export function Education() {
+  const { language, t } = useLanguage();
   const [activeTab, setActiveTab] = useState<'academic' | 'extracurricular'>('academic');
 
-  const educations = activeTab === 'academic' ? academicEducation : extracurricularEducation;
+  const educations = activeTab === 'academic' ? educationByLanguage[language].academic : educationByLanguage[language].extracurricular;
 
   return (
     <section id="education" className="py-20 px-8 lg:px-16 bg-white">
       <div className="container mx-auto max-w-4xl">
         <SectionHeading 
-          title="Formações" 
-          subtitle="O meu percurso académico e as formações extracurriculares que complementam os meus conhecimentos."
+          title={t.education.title} 
+          subtitle={t.education.subtitle}
         />
 
         <div className="flex justify-center mb-10 mt-12">
@@ -64,7 +72,7 @@ export function Education() {
                   : 'text-gray-600 hover:text-gray-900 hover:bg-white'
               }`}
             >
-              Académicas
+              {t.education.academicTab}
             </button>
             <button
               onClick={() => setActiveTab('extracurricular')}
@@ -74,7 +82,7 @@ export function Education() {
                   : 'text-gray-600 hover:text-gray-900 hover:bg-white'
               }`}
             >
-              Extra-Curriculares
+              {t.education.extracurricularTab}
             </button>
           </div>
         </div>
@@ -95,23 +103,18 @@ export function Education() {
                     <h3 className="text-xl font-bold text-gray-800">{edu.title}</h3>
                     <h4 className="text-lg font-medium text-indigo-600 mt-1 mb-2 flex items-center gap-2">
                       {edu.institution}
-                      {/* @ts-ignore */}
                       {edu.location && <span className="text-sm font-normal text-gray-400 border-l border-gray-300 pl-2">{edu.location}</span>}
                     </h4>
                     <span className="inline-block px-3 py-1 bg-gray-100 text-gray-600 text-xs font-semibold rounded-full mb-4">
-                      {edu.period}
+                      {formatMonthYear(edu.period, language)}
                     </span>
-                    {/* @ts-ignore */}
                     {edu.description && (
                       <p className="text-gray-600 leading-relaxed text-justify">
-                        {/* @ts-ignore */}
                         {edu.description}
                       </p>
                     )}
-                    {/* @ts-ignore */}
                     {edu.credential && (
                       <p className="text-gray-500 text-sm mt-1 font-medium">
-                        {/* @ts-ignore */}
                         {edu.credential}
                       </p>
                     )}

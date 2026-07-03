@@ -8,6 +8,7 @@ import { Education } from './components/sections/Education';
 import { Certifications as Achievements } from './components/sections/Certifications';
 import { Projects } from './components/sections/Projects';
 import { Contact } from './components/sections/Contact';
+import { LanguageProvider, useLanguage } from './i18n';
 
 export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -20,26 +21,35 @@ export default function App() {
   }, []);
 
   return (
-    <div className="font-sans bg-white text-gray-900 scroll-smooth">
-      <Sidebar mobileMenuOpen={mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen} />
-      
-      <main className="lg:ml-72 transition-all duration-300">
-        <Hero />
-        <About />
-        <Skills />
-        <Experience />
-        <Education />
-        <Achievements />
-        <Projects />
-        <Contact />
+    <LanguageProvider>
+      <div className="font-sans bg-white text-gray-900 scroll-smooth">
+        <Sidebar mobileMenuOpen={mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen} />
         
-        {/* Simple Footer */}
-        <footer className="bg-gray-50 py-8 text-center border-t border-gray-200">
-          <p className="text-gray-500 text-sm">
-            © {new Date().getFullYear()} Leo Filipe. Desenvolvido com React, Tailwind CSS e AI Code Assist.
-          </p>
-        </footer>
-      </main>
-    </div>
+        <main className="lg:ml-72 transition-all duration-300">
+          <Hero />
+          <About />
+          <Skills />
+          <Experience />
+          <Education />
+          <Achievements />
+          <Projects />
+          <Contact />
+          
+          <Footer />
+        </main>
+      </div>
+    </LanguageProvider>
+  );
+}
+
+function Footer() {
+  const { t } = useLanguage();
+
+  return (
+    <footer className="bg-gray-50 py-8 text-center border-t border-gray-200">
+      <p className="text-gray-500 text-sm">
+        © {new Date().getFullYear()} Leo Filipe. {t.footer.credit}
+      </p>
+    </footer>
   );
 }
